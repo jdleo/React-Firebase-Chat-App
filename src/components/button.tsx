@@ -11,9 +11,7 @@ interface IProps {
 function button(props: React.PropsWithChildren<IProps>): ReactElement {
   return (
     <button style={styles.button}>
-        <span style={styles.buttonTitle}>
-            {props.title}
-        </span>
+      <span style={styles.buttonTitle}>{props.title}</span>
     </button>
   );
 }

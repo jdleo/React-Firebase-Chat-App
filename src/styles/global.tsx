@@ -56,9 +56,8 @@ export const styles: IStyles = {
       width: '100%',
       borderRadius: 10,
       border: 'solid',
-      borderColor: '#ddd',
       borderWidth: 2,
-      outline: 'none',
+      outline: 'none', 
       padding: 10
   },
   leftAdjustedTextCol: {

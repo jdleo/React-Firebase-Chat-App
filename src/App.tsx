@@ -7,6 +7,49 @@ import { Container, Row, Col } from "react-bootstrap";
 import { styles } from "./styles/global";
 
 function App() {
+
+  // unpack state for border color (for focusing)
+  const [emailBorderColor, setEmailBorderColor] = React.useState({
+    borderColor: "#ddd"
+  });
+
+  // unpack state for border color (for focusing)
+  const [passwordBorderColor, setPasswordBorderColor] = React.useState({
+    borderColor: "#ddd"
+  });
+
+  // helper method for handling onBlur() : text field 1
+  const onBlurEmail = () => {
+    // set state to normal border color
+    setEmailBorderColor({
+      borderColor: "#ddd"
+    })
+  }
+
+  // helper method for handling onFocus()
+  const onFocusEmail = () => {
+    // set state to focused blue border color
+    setEmailBorderColor({
+      borderColor: "#5D6EE4"
+    })
+  }
+
+  // helper method for handling onBlur() : text field 1
+  const onBlurPassword = () => {
+    // set state to normal border color
+    setPasswordBorderColor({
+      borderColor: "#ddd"
+    })
+  }
+
+  // helper method for handling onFocus()
+  const onFocusPassword = () => {
+    // set state to focused blue border color
+    setPasswordBorderColor({
+      borderColor: "#5D6EE4"
+    })
+  }
+
   return (
     <div style={styles.container}>
       <Container fluid>
@@ -32,6 +75,9 @@ function App() {
                           placeholder={"Email"}
                           value={"Email"}
                           type={"email"}
+                          style={{...styles.input, ...emailBorderColor}}
+                          onFocus={() => onFocusEmail()}
+                          onBlur={() => onBlurEmail()}
                         />
                       </Col>
                     </Row>
@@ -51,6 +97,9 @@ function App() {
                           placeholder={"Password"}
                           value={"Password"}
                           type={"password"}
+                          style={{...styles.input, ...passwordBorderColor}}
+                          onFocus={() => onFocusPassword()}
+                          onBlur={() => onBlurPassword()}
                         />
                       </Col>
                     </Row>
@@ -61,7 +110,7 @@ function App() {
                 {/* Login Button Row */}
                 <Row className="justify-content-center">
                   <Col xs={7} md={4}>
-                    <Button title={"Log In"} />
+                    <Button title={"Log In"}/>
                   </Col>
                 </Row>
               </Container>
