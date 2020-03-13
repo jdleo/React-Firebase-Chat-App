@@ -16,4 +16,4 @@ function card(props: React.PropsWithChildren<IProps>): ReactElement {
     )
 }
 
-export default card
+export default card;
