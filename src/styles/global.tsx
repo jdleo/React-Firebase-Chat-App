@@ -53,7 +53,13 @@ export const styles: IStyles = {
     fontWeight: 700
   },
   input: {
-      width: '100%'
+      width: '100%',
+      borderRadius: 10,
+      border: 'solid',
+      borderColor: '#ddd',
+      borderWidth: 2,
+      outline: 'none',
+      padding: 10
   },
   leftAdjustedTextCol: {
       textAlign: 'left'
