@@ -7,7 +7,7 @@ interface IStyles {
 export const styles: IStyles = {
   container: {
     textAlign: "center",
-    padding: 40
+    paddingTop: 40
   },
   card: {
     backgroundColor: "#fff",
@@ -58,7 +58,8 @@ export const styles: IStyles = {
       border: 'solid',
       borderWidth: 2,
       outline: 'none', 
-      padding: 10
+      padding: 10,
+      backgroundClip: 'padding-box'
   },
   leftAdjustedTextCol: {
       textAlign: 'left'
