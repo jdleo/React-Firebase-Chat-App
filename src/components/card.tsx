@@ -4,14 +4,14 @@ import React, { ReactElement } from 'react'
 import { styles } from '../styles/global';
 
 // interface for component
-interface Props {
+interface IProps {
 
 }
 
-function card({ }: Props): ReactElement {
+function card(props: React.PropsWithChildren<IProps>): ReactElement {
     return (
         <div style={styles.card}>
-            
+            {props.children}
         </div>
     )
 }
