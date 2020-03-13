@@ -18,6 +18,12 @@ function App() {
     borderColor: "#ddd"
   });
 
+  // unpack state for email
+  const [email, setEmail] = React.useState("");
+
+  // unpack state for password
+  const [password, setPassword] = React.useState("");
+
   // helper method for handling onBlur() : text field 1
   const onBlurEmail = () => {
     // set state to normal border color
@@ -50,6 +56,18 @@ function App() {
     })
   }
 
+  // helper method for handling text change
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // check input type
+    if (e.target.type === "email") {
+      // update email text
+      setEmail(e.target.value);
+    } else {
+      // update password text
+      setPassword(e.target.value);
+    }
+  }
+
   return (
     <div style={styles.container}>
       <Container fluid>
@@ -73,11 +91,12 @@ function App() {
                       <Col xs={12}>
                         <TextField
                           placeholder={"Email"}
-                          value={"Email"}
+                          value={email}
                           type={"email"}
                           style={{...styles.input, ...emailBorderColor}}
                           onFocus={() => onFocusEmail()}
                           onBlur={() => onBlurEmail()}
+                          onChange={(e) => onChange(e)}
                         />
                       </Col>
                     </Row>
@@ -95,11 +114,12 @@ function App() {
                       <Col xs={12}>
                         <TextField
                           placeholder={"Password"}
-                          value={"Password"}
+                          value={password}
                           type={"password"}
                           style={{...styles.input, ...passwordBorderColor}}
                           onFocus={() => onFocusPassword()}
                           onBlur={() => onBlurPassword()}
+                          onChange={(e) => onChange(e)}
                         />
                       </Col>
                     </Row>

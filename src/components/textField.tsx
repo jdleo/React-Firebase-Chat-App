@@ -11,6 +11,7 @@ interface IProps {
   style: { [key: string]: any };
   onBlur: () => void;
   onFocus: () => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function textField(props: React.PropsWithChildren<IProps>): ReactElement {
@@ -22,6 +23,7 @@ function textField(props: React.PropsWithChildren<IProps>): ReactElement {
       type={props.type}
       onBlur={props.onBlur}
       onFocus={props.onFocus}
+      onChange={(e) => props.onChange(e)}
     />
   );
 }
