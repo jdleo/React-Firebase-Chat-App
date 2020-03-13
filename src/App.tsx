@@ -13,7 +13,13 @@ function App() {
         <Row className="justify-content-center">
           <Col xs={11} md={6}>
             <Card>
-              <header style={styles.h1}>Login</header>
+              <Container fluid>
+                <Row className="justify-content-start">
+                  <Col xs={12}>
+                    <header style={styles.h1}>Login</header>
+                  </Col>
+                </Row>
+              </Container>
             </Card>
           </Col>
         </Row>
