@@ -31,6 +31,18 @@ function Login({}: IProps): React.ReactElement {
     // unpack state for authenticated
     const [loggedIn, setLoggedIn] = React.useState(false);
 
+    // listen on auth state changed
+    firebase.auth().onAuthStateChanged(user => {
+        // check if signed in
+        if (user) {
+            // set flag
+            setLoggedIn(true);
+        } else {
+            // set flag
+            setLoggedIn(false);
+        }
+    });
+
     // helper method for handling onBlur() : text field 1
     const onBlurEmail = () => {
         // set state to normal border color
@@ -84,8 +96,7 @@ function Login({}: IProps): React.ReactElement {
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(res => {
-                // set logged in
-                setLoggedIn(true);
+                // do nothing for now
             })
             .catch(err => {
                 // check if error is user not found
@@ -95,8 +106,7 @@ function Login({}: IProps): React.ReactElement {
                         .auth()
                         .createUserWithEmailAndPassword(email, password)
                         .then(res => {
-                            // set logged in
-                            setLoggedIn(true);
+                            // do nothing for now
                         })
                         .catch(err => {
                             console.log(err);

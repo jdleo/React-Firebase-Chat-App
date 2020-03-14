@@ -7,15 +7,26 @@ import { Login, Chat } from "./pages";
 import firebase from "./config/firebase";
 
 const App: () => React.ReactElement = () => {
-    // attempt to get current user
-    const user = firebase.auth().currentUser;
+    // unpack state for authenticated
+    const [loggedIn, setLoggedIn] = React.useState(false);
 
-    // check if signed in
-    if (user) {
-        // go to chat
+    // listen on auth state changed
+    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+        // check if signed in
+        if (user) {
+            // set flag
+            setLoggedIn(true);
+        } else {
+            // set flag
+            setLoggedIn(false);
+        }
+    });
+
+    // return appropriate screen based on current auth status
+    if (loggedIn) {
+        unsubscribe();
         return <Chat />;
     } else {
-        // go to login
         return <Login />;
     }
 };

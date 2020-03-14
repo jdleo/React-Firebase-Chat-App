@@ -13,7 +13,18 @@ interface IProps {}
 function Chat({}: IProps): React.ReactElement {
     return (
         <div style={styles.container}>
-            Hello, from <code>Chat.tsx</code>
+            <p>
+                Hello, from <code>Chat.tsx</code>
+            </p>
+            <Button
+                title="Log Out"
+                onClick={() =>
+                    firebase
+                        .auth()
+                        .signOut()
+                        .catch(err => {})
+                }
+            />
         </div>
     );
 }
