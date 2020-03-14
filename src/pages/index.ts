@@ -1,4 +1,7 @@
 // imports
+import Login from './Login';
 
 // exposing components
-export {};
+export {
+    Login
+};
