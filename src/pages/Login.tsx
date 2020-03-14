@@ -91,9 +91,7 @@ function Login({}: IProps): React.ReactElement {
     };
 
     // helper method for handling login click
-    const onClick = (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
+    const onClick = () => {
         // attempt login w/ email + password
         firebase
             .auth()
@@ -120,6 +118,16 @@ function Login({}: IProps): React.ReactElement {
                     setError(err.message);
                 }
             });
+    };
+
+    // helper method for handling enter key on password field
+    const onPasswordEnterKeyPress = (
+        e: React.KeyboardEvent<HTMLInputElement>
+    ) => {
+        // check if enter key
+        if (e.key === "Enter") {
+            onClick();
+        }
     };
 
     // check if logged in first
@@ -168,6 +176,9 @@ function Login({}: IProps): React.ReactElement {
                                                     }
                                                     onBlur={() => onBlurEmail()}
                                                     onChange={e => onChange(e)}
+                                                    onKeyPress={() => {
+                                                        return;
+                                                    }}
                                                 />
                                             </Col>
                                         </Row>
@@ -204,6 +215,11 @@ function Login({}: IProps): React.ReactElement {
                                                         onBlurPassword()
                                                     }
                                                     onChange={e => onChange(e)}
+                                                    onKeyPress={e =>
+                                                        onPasswordEnterKeyPress(
+                                                            e
+                                                        )
+                                                    }
                                                 />
                                             </Col>
                                         </Row>
@@ -229,7 +245,7 @@ function Login({}: IProps): React.ReactElement {
                                     <Col xs={7} md={4}>
                                         <Button
                                             title={"Log In"}
-                                            onClick={e => onClick(e)}
+                                            onClick={() => onClick()}
                                         />
                                     </Col>
                                 </Row>
