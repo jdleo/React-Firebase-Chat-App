@@ -70,6 +70,36 @@ function App() {
         }
     };
 
+    // helper method for handling login click
+    const onClick = (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        // attempt login w/ email + password
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                // check if error is user not found
+                if (err.code === "auth/user-not-found") {
+                    // attempt to create user
+                    firebase
+                        .auth()
+                        .createUserWithEmailAndPassword(email, password)
+                        .then(res => {
+                            console.log(res);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                } else {
+                    console.log(err);
+                }
+            });
+    };
+
     return (
         <div style={styles.container}>
             <Container fluid>
@@ -156,7 +186,18 @@ function App() {
                                 {/* Login Button Row */}
                                 <Row className="justify-content-center">
                                     <Col xs={7} md={4}>
-                                        <Button title={"Log In"} />
+                                        <Button
+                                            title={"Log In"}
+                                            onClick={e => onClick(e)}
+                                        />
+                                    </Col>
+                                </Row>
+                                <br />
+                                <br />
+                                {/* Login Button Row */}
+                                <Row className="justify-content-center">
+                                    <Col xs={11}>
+                                        <p style={{color: '#5D6EE4'}}>If you don't have an account, one will be created</p>
                                     </Col>
                                 </Row>
                             </Container>
