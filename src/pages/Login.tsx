@@ -1,10 +1,18 @@
-import React, { ReactElement } from 'react'
+import React from "react";
+import { Card, TextField, Button } from "../components";
+import { Container, Row, Col } from "react-bootstrap";
 
-interface Props {
+// for styles
+import { styles } from "../styles/global";
+
+// firebase
+import firebase from "../config/firebase";
+
+interface IProps {
     
 }
 
-function Login({}: Props): ReactElement {
+function Login({}: IProps): React.ReactElement {
     return (
         <div>
             
