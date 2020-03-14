@@ -20,5 +20,8 @@ const FirebaseConfig: IFirebaseConfig = {
 // initialize app
 firebase.initializeApp(FirebaseConfig);
 
+// analytics
+firebase.analytics();
+
 // export firebase sdk
 export default firebase;
