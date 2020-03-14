@@ -31,6 +31,9 @@ function Login({}: IProps): React.ReactElement {
     // unpack state for error
     const [error, setError] = React.useState("");
 
+    // unpack state for loading
+    const [loading, setLoading] = React.useState(false);
+
     // unpack state for authenticated
     const [loggedIn, setLoggedIn] = React.useState(false);
 
@@ -92,12 +95,16 @@ function Login({}: IProps): React.ReactElement {
 
     // helper method for handling login click
     const onClick = () => {
+        // set loading
+        setLoading(true);
+
         // attempt login w/ email + password
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(res => {
-                // do nothing for now
+                // clear loading
+                setLoading(false);
             })
             .catch(err => {
                 // check if error is user not found
@@ -107,15 +114,22 @@ function Login({}: IProps): React.ReactElement {
                         .auth()
                         .createUserWithEmailAndPassword(email, password)
                         .then(res => {
-                            // do nothing for now
+                            // clear loading
+                            setLoading(false);
                         })
                         .catch(err => {
                             // set error
                             setError(err.message);
+
+                            // clear loading
+                            setLoading(false);
                         });
                 } else {
                     // set error
                     setError(err.message);
+
+                    // clear loading
+                    setLoading(false);
                 }
             });
     };
@@ -246,6 +260,7 @@ function Login({}: IProps): React.ReactElement {
                                         <Button
                                             title={"Log In"}
                                             onClick={() => onClick()}
+                                            disabled={loading}
                                         />
                                     </Col>
                                 </Row>

@@ -24,6 +24,7 @@ function Chat({}: IProps): React.ReactElement {
                         .signOut()
                         .catch(err => {})
                 }
+                disabled={false}
             />
         </div>
     );
