@@ -14,13 +14,13 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID="xxx"
 REACT_APP_FIREBASE_APP_ID="xxx"
 REACT_APP_FIREBASE_MEASUREMENT_ID="xxx"
 ```
-(where 'xxx' are the values from your Firebase App)
-3. Go to Heroku, make a new app, and set these same config variables (you don't have to do this step if you uncomment `.env.local` from `.gitignore`)
+(where 'xxx' are the values from your Firebase App)  
+3. Go to Heroku, make a new app, and set these same config variables (you don't have to do this step if you uncomment `.env.local` from `.gitignore`)  
 4. Set the Heroku buildpack to
 ```bash
 heroku buildpacks:set https://github.com/mars/create-react-app-buildpack.git
 ```
-5. deploy
+5. deploy  
 
 ## Available Scripts
 
