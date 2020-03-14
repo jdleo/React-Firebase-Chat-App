@@ -28,6 +28,9 @@ function Login({}: IProps): React.ReactElement {
     // unpack state for password
     const [password, setPassword] = React.useState("");
 
+    // unpack state for error
+    const [error, setError] = React.useState("");
+
     // unpack state for authenticated
     const [loggedIn, setLoggedIn] = React.useState(false);
 
@@ -109,10 +112,12 @@ function Login({}: IProps): React.ReactElement {
                             // do nothing for now
                         })
                         .catch(err => {
-                            console.log(err);
+                            // set error
+                            setError(err.message);
                         });
                 } else {
-                    console.log(err);
+                    // set error
+                    setError(err.message);
                 }
             });
     };
@@ -206,6 +211,19 @@ function Login({}: IProps): React.ReactElement {
                                 </Row>
                                 <br />
                                 <br />
+                                {/* Error Message Row */}
+                                <Row
+                                    className="justify-content-center"
+                                    style={{
+                                        display: error === "" ? "none" : "block"
+                                    }}
+                                >
+                                    <Col xs={12}>
+                                        <p style={{ color: "#f44336" }}>
+                                            {error}
+                                        </p>
+                                    </Col>
+                                </Row>
                                 {/* Login Button Row */}
                                 <Row className="justify-content-center">
                                     <Col xs={7} md={4}>
@@ -217,7 +235,7 @@ function Login({}: IProps): React.ReactElement {
                                 </Row>
                                 <br />
                                 <br />
-                                {/* Login Button Row */}
+                                {/* Helper Message Row */}
                                 <Row className="justify-content-center">
                                     <Col xs={11}>
                                         <p style={{ color: "#5D6EE4" }}>
