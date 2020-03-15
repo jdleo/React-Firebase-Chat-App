@@ -18,16 +18,43 @@ import { styles } from "../styles/global";
 interface IProps {}
 
 function Chat({}: IProps): React.ReactElement {
+    // unpacking chat data state
+    const [messages, setMessages] = React.useState(["This is a message"]);
+
     // unpacking room text state
     const [roomText, setRoomText] = React.useState("");
 
     // unpacking room state (to see if user chose a chat room yet)
     const [room, setRoom] = React.useState("");
 
+    // unpacking chat bar text
+    const [body, setBody] = React.useState("");
+
     // unpack state for border color (for focusing)
     const [roomBorderColor, setRoomBorderColor] = React.useState({
         borderColor: "#ddd"
     });
+
+    // unpack state for border color (for focusing)
+    const [chatBorderColor, setChatBorderColor] = React.useState({
+        borderColor: "#ddd"
+    });
+
+    // helper method for handling onBlur()
+    const onBlurChat = () => {
+        // set state to normal border color
+        setChatBorderColor({
+            borderColor: "#ddd"
+        });
+    };
+
+    // helper method for handling onFocus()
+    const onFocusChat = () => {
+        // set state to focused blue border color
+        setChatBorderColor({
+            borderColor: "#5D6EE4"
+        });
+    };
 
     // helper method for handling onBlur()
     const onBlurRoom = () => {
@@ -43,6 +70,18 @@ function Chat({}: IProps): React.ReactElement {
         setRoomBorderColor({
             borderColor: "#5D6EE4"
         });
+    };
+
+    // helper method for handling enter key on password field
+    const onChatKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        // check if enter key
+        if (e.key === "Enter") {
+            // append to messages
+            setMessages([...messages, body]);
+
+            // clear text field
+            setBody("");
+        }
     };
 
     // helper method for conditionally rendering chat container
@@ -89,10 +128,10 @@ function Chat({}: IProps): React.ReactElement {
                 </Container>
             );
         } else {
-            const listItems = [...Array(250)].map(i => (
-                <div key={i}>
-                    Room code is <code>{room}</code>
-                    <br/>
+            const listItems = messages.map((message, index) => (
+                <div key={index}>
+                    {message}
+                    <br />
                 </div>
             ));
 
@@ -102,15 +141,18 @@ function Chat({}: IProps): React.ReactElement {
                     <Navbar fixed="bottom">
                         <TextField
                             placeholder="Type here..."
-                            value={roomText}
+                            value={body}
                             type="text"
-                            style={{ ...styles.input, ...roomBorderColor, boxShadow: "15px 15px 30px #d9d9d9, -15px -15px 30px #ffffff"}}
-                            onChange={e => setRoomText(e.target.value)}
-                            onBlur={() => onBlurRoom()}
-                            onFocus={() => onFocusRoom()}
-                            onKeyPress={() => {
-                                return;
+                            style={{
+                                ...styles.input,
+                                ...roomBorderColor,
+                                boxShadow:
+                                    "15px 15px 30px #d9d9d9, -15px -15px 30px #ffffff"
                             }}
+                            onChange={e => setBody(e.target.value)}
+                            onBlur={() => onBlurChat()}
+                            onFocus={() => onFocusChat()}
+                            onKeyPress={e => onChatKeyPress(e)}
                         />
                     </Navbar>
                 </>
