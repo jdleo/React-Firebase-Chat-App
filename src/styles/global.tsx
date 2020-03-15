@@ -72,6 +72,13 @@ export const styles: IStyles = {
         borderRadius: 10,
         boxShadow: "2px 2px 4px #4f5ec2, -2px -2px 4px #ccccff"
     },
+    buttonFixed: {
+        backgroundColor: "#5D6EE4",
+        border: "none",
+        padding: 10,
+        borderRadius: 10,
+        boxShadow: "2px 2px 4px #4f5ec2, -2px -2px 4px #ccccff"
+    },
     buttonDisabled: {
         backgroundColor: "#bbb",
         border: "none",
