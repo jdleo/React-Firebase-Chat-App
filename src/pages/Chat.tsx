@@ -15,6 +15,40 @@ import firebase from "../config/firebase";
 // for styling
 import { styles } from "../styles/global";
 
+// for colors
+const colors = [
+    "#f44336",
+    "#e53935",
+    "#d32f2f",
+    "#c62828",
+    "#b71c1c",
+    "#e91e63",
+    "#d81b60",
+    "#c2185b",
+    "#ad1457",
+    "#880e4f",
+    "#9c27b0",
+    "#8e24aa",
+    "#7b1fa2",
+    "#6a1b9a",
+    "#4a148c",
+    "#673ab7",
+    "#5e35b1",
+    "#512da8",
+    "#4527a0",
+    "#311b92",
+    "#3f51b5",
+    "#3949ab",
+    "#303f9f",
+    "#283593",
+    "#1a237e",
+    "#4caf50",
+    "#43a047",
+    "#388e3c",
+    "#2e7d32",
+    "#1b5e20"
+];
+
 interface IProps {}
 
 function Chat({}: IProps): React.ReactElement {
@@ -31,6 +65,11 @@ function Chat({}: IProps): React.ReactElement {
             timestamp: firebase.firestore.Timestamp.now()
         }
     ]);
+
+    // a data store for which users correspond to which colors
+    const [userColors, setUserColors] = React.useState({
+        [firebase.auth().currentUser!.uid]: "#e0e0e0"
+    });
 
     // unpacking room text state
     const [roomText, setRoomText] = React.useState("");
@@ -105,6 +144,25 @@ function Chat({}: IProps): React.ReactElement {
         }
     };
 
+    // helper method for rendering color based on sender
+    const renderBubbleColor: (sender: string) => string = (sender: string) => {
+        console.log(userColors);
+        // check if sender in user colors
+        if (sender in userColors) {
+            // return color
+            return userColors[sender];
+        } else {
+            // create a random color for this sender
+            setUserColors({
+                ...userColors,
+                [sender]: colors[Math.floor(Math.random() * colors.length)]
+            });
+            
+            // return new color
+            return userColors[sender];
+        }
+    };
+
     // helper method for conditionally rendering chat container
     const renderContainer = () => {
         // check if room hasn't been set
@@ -160,8 +218,13 @@ function Chat({}: IProps): React.ReactElement {
                 >
                     <Col xs={12}>
                         <Bubble
-                            color="#e0e0e0"
-                            textColor="#000"
+                            color={renderBubbleColor(message.sender)}
+                            textColor={
+                                message.sender ===
+                                firebase.auth().currentUser!.uid
+                                    ? "#000"
+                                    : "#fff"
+                            }
                             alignment={
                                 message.sender ===
                                 firebase.auth().currentUser!.uid
