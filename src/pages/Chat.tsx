@@ -19,7 +19,18 @@ interface IProps {}
 
 function Chat({}: IProps): React.ReactElement {
     // unpacking chat data state
-    const [messages, setMessages] = React.useState(["This is a message"]);
+    const [messages, setMessages] = React.useState([
+        {
+            sender: "bWcWyIpEjkPqtn39eRdvuU9focm1",
+            body: "This is a message",
+            timestamp: firebase.firestore.Timestamp.now()
+        },
+        {
+            sender: "not my uid",
+            body: "This is another message",
+            timestamp: firebase.firestore.Timestamp.now()
+        }
+    ]);
 
     // unpacking room text state
     const [roomText, setRoomText] = React.useState("");
@@ -77,7 +88,14 @@ function Chat({}: IProps): React.ReactElement {
         // check if enter key
         if (e.key === "Enter") {
             // append to messages
-            setMessages([...messages, body]);
+            setMessages([
+                ...messages,
+                {
+                    sender: firebase.auth().currentUser!.uid,
+                    body: body,
+                    timestamp: firebase.firestore.Timestamp.now()
+                }
+            ]);
 
             // clear text field
             setBody("");
@@ -129,14 +147,23 @@ function Chat({}: IProps): React.ReactElement {
             );
         } else {
             const listItems = messages.map((message, index) => (
-                <div key={index}>
-                    {message}
-                    <br />
-                </div>
+                <Row
+                    className={
+                        message.sender === firebase.auth().currentUser!.uid
+                            ? "justify-content-end"
+                            : "justify-content-start"
+                    }
+                    key={index}
+                >
+                    <Col xs={10} md={5}>
+                        {message.body}
+                    </Col>
+                </Row>
             ));
 
             return (
                 <>
+                    <Container fluid></Container>
                     {listItems}
                     <Navbar fixed="bottom">
                         <TextField
