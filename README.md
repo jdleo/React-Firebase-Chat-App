@@ -21,9 +21,36 @@ REACT_APP_FIREBASE_MEASUREMENT_ID="xxx"
 heroku buildpacks:set https://github.com/mars/create-react-app-buildpack.git
 ```
 5. deploy  
-
+  
+## Firestore Security Rules  
+  
+Set up your Firestore security rules as follows  
+```js
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /rooms {
+    
+      // any authenticated user can query a room
+      allow get: if request.auth.uid != null;
+      
+      // nobody can query LIST of roomsa
+      allow list: if false;
+      
+      match /rooms/{roomId} {
+      	// anybody can create rooms
+      	allow create: if request.auth.uid != null;
+      
+      	// nobody can delete rooms
+      	allow delete: if false;
+      }
+    }
+  }
+}
+```  
+  
 ## Available Scripts
-
+  
 In the project directory, you can run:
 
 ### `yarn start`
