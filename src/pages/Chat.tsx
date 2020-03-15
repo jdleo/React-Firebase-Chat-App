@@ -89,17 +89,38 @@ function Chat({}: IProps): React.ReactElement {
                 </Container>
             );
         } else {
-            return (
-                <div>
+            const listItems = [...Array(250)].map(i => (
+                <div key={i}>
                     Room code is <code>{room}</code>
+                    <br/>
                 </div>
+            ));
+
+            return (
+                <>
+                    {listItems}
+                    <Navbar fixed="bottom">
+                        <TextField
+                            placeholder="Type here..."
+                            value={roomText}
+                            type="text"
+                            style={{ ...styles.input, ...roomBorderColor, boxShadow: "15px 15px 30px #d9d9d9, -15px -15px 30px #ffffff"}}
+                            onChange={e => setRoomText(e.target.value)}
+                            onBlur={() => onBlurRoom()}
+                            onFocus={() => onFocusRoom()}
+                            onKeyPress={() => {
+                                return;
+                            }}
+                        />
+                    </Navbar>
+                </>
             );
         }
     };
 
     return (
         <div>
-            <Navbar sticky="top">
+            <Navbar sticky="top" bg="light">
                 <Navbar.Brand href="#">Chat App</Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
