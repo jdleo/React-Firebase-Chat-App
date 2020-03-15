@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TextField } from "../components";
+import { Button, TextField, Bubble } from "../components";
 import {
     Container,
     Row,
@@ -87,18 +87,21 @@ function Chat({}: IProps): React.ReactElement {
     const onChatKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         // check if enter key
         if (e.key === "Enter") {
-            // append to messages
-            setMessages([
-                ...messages,
-                {
-                    sender: firebase.auth().currentUser!.uid,
-                    body: body,
-                    timestamp: firebase.firestore.Timestamp.now()
-                }
-            ]);
+            // make sure not empty
+            if (body !== "") {
+                // append to messages
+                setMessages([
+                    ...messages,
+                    {
+                        sender: firebase.auth().currentUser!.uid,
+                        body: body,
+                        timestamp: firebase.firestore.Timestamp.now()
+                    }
+                ]);
 
-            // clear text field
-            setBody("");
+                // clear text field
+                setBody("");
+            }
         }
     };
 
@@ -155,8 +158,19 @@ function Chat({}: IProps): React.ReactElement {
                     }
                     key={index}
                 >
-                    <Col xs={10} md={5}>
-                        {message.body}
+                    <Col xs={12}>
+                        <Bubble
+                            color="#e0e0e0"
+                            textColor="#000"
+                            alignment={
+                                message.sender ===
+                                firebase.auth().currentUser!.uid
+                                    ? "right"
+                                    : "left"
+                            }
+                        >
+                            {message.body}
+                        </Bubble>
                     </Col>
                 </Row>
             ));

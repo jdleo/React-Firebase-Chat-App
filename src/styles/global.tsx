@@ -90,5 +90,18 @@ export const styles: IStyles = {
     buttonTitle: {
         fontWeight: 700,
         color: "#fff"
+    },
+    bubble: {
+      width: "max-content",
+      maxWidth: "70%",
+      overflowWrap: "break-word",
+      borderRadius: 20,
+      paddingTop: 15,
+      paddingLeft: 15,
+      paddingRight: 15,
+      paddingBottom: 3,
+      marginBottom: 20,
+      marginLeft: 20,
+      marginRight: 20
     }
 };
