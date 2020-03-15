@@ -34,7 +34,7 @@ service cloud.firestore {
       // any authenticated user can query a room
       allow get: if request.auth.uid != null;
       
-      // nobody can query LIST of roomsa
+      // nobody can query LIST of rooms
       allow list: if false;
       
       match /rooms/{roomId} {
