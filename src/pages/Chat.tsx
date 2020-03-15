@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../components";
+import { Button, TextField } from "../components";
 import {
     Container,
     Row,
@@ -9,15 +9,94 @@ import {
     Popover
 } from "react-bootstrap";
 
-// for styles
-import { styles } from "../styles/global";
-
 // firebase
 import firebase from "../config/firebase";
+
+// for styling
+import { styles } from "../styles/global";
 
 interface IProps {}
 
 function Chat({}: IProps): React.ReactElement {
+    // unpacking room text state
+    const [roomText, setRoomText] = React.useState("");
+
+    // unpacking room state (to see if user chose a chat room yet)
+    const [room, setRoom] = React.useState("");
+
+    // unpack state for border color (for focusing)
+    const [roomBorderColor, setRoomBorderColor] = React.useState({
+        borderColor: "#ddd"
+    });
+
+    // helper method for handling onBlur()
+    const onBlurRoom = () => {
+        // set state to normal border color
+        setRoomBorderColor({
+            borderColor: "#ddd"
+        });
+    };
+
+    // helper method for handling onFocus()
+    const onFocusRoom = () => {
+        // set state to focused blue border color
+        setRoomBorderColor({
+            borderColor: "#5D6EE4"
+        });
+    };
+
+    // helper method for conditionally rendering chat container
+    const renderContainer = () => {
+        // check if room hasn't been set
+        if (room === "") {
+            return (
+                <Container fluid>
+                    <Row className="justify-content-center">
+                        <Col xs={11} md={6}>
+                            <TextField
+                                placeholder="Enter room code..."
+                                value={roomText}
+                                type="text"
+                                style={{ ...styles.input, ...roomBorderColor }}
+                                onChange={e => setRoomText(e.target.value)}
+                                onBlur={() => onBlurRoom()}
+                                onFocus={() => onFocusRoom()}
+                                onKeyPress={() => {
+                                    return;
+                                }}
+                            />
+                        </Col>
+                    </Row>
+                    <br />
+                    <Row className="justify-content-center">
+                        <Col xs={11} md={6}>
+                            <Button
+                                title="Enter Room"
+                                onClick={() => setRoom(roomText)}
+                                disabled={false}
+                            />
+                        </Col>
+                    </Row>
+                    <br />
+                    <Row className="justify-content-center">
+                        <Col xs={11} md={6}>
+                            <p style={{ color: "#5D6EE4" }}>
+                                If the room code doesn't exist yet, it will be
+                                created.
+                            </p>
+                        </Col>
+                    </Row>
+                </Container>
+            );
+        } else {
+            return (
+                <div>
+                    Room code is <code>{room}</code>
+                </div>
+            );
+        }
+    };
+
     return (
         <div>
             <Navbar sticky="top">
@@ -52,9 +131,7 @@ function Chat({}: IProps): React.ReactElement {
                     </Navbar.Text>
                 </Navbar.Collapse>
             </Navbar>
-            <p>
-                Hello, from <code>Chat.tsx</code>
-            </p>
+            <div style={styles.container}>{renderContainer()}</div>
         </div>
     );
 }
