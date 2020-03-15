@@ -91,9 +91,14 @@ export const styles: IStyles = {
         fontWeight: 700,
         color: "#fff"
     },
-    bubble: {
+    bubbleContainer: {
       width: "max-content",
       maxWidth: "70%",
+      marginLeft: 20,
+      marginRight: 20,
+      textAlign: "left"
+    },
+    bubble: {
       overflowWrap: "break-word",
       borderRadius: 20,
       paddingTop: 15,
@@ -101,7 +106,5 @@ export const styles: IStyles = {
       paddingRight: 15,
       paddingBottom: 3,
       marginBottom: 20,
-      marginLeft: 20,
-      marginRight: 20
     }
 };

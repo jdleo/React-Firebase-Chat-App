@@ -60,7 +60,7 @@ function Chat({}: IProps): React.ReactElement {
             timestamp: firebase.firestore.Timestamp.now()
         },
         {
-            sender: "not my uid",
+            sender: "rEFvQL0fodWQFwqf4asef",
             body: "This is another message",
             timestamp: firebase.firestore.Timestamp.now()
         }
@@ -157,7 +157,7 @@ function Chat({}: IProps): React.ReactElement {
                 ...userColors,
                 [sender]: colors[Math.floor(Math.random() * colors.length)]
             });
-            
+
             // return new color
             return userColors[sender];
         }
@@ -218,6 +218,7 @@ function Chat({}: IProps): React.ReactElement {
                 >
                     <Col xs={12}>
                         <Bubble
+                            sender={message.sender.substring(0,5)}
                             color={renderBubbleColor(message.sender)}
                             textColor={
                                 message.sender ===

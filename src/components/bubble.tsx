@@ -7,6 +7,7 @@ import { styles } from "../styles/global";
 interface IProps {
     color: string;
     textColor: string;
+    sender: string;
     alignment:
         | "-moz-initial"
         | "inherit"
@@ -25,10 +26,18 @@ interface IProps {
 
 function bubble(props: React.PropsWithChildren<IProps>): ReactElement {
     return (
-        <div style={{ ...styles.bubble, backgroundColor: props.color, float: props.alignment}}>
-            <p style={{ color: props.textColor, textAlign: "left" }}>
-                {props.children}
-            </p>
+        <div style={{ ...styles.bubbleContainer, float: props.alignment }}>
+            <p style={{ marginLeft: 10, marginBottom: 0 }}>{props.sender}</p>
+            <div
+                style={{
+                    ...styles.bubble,
+                    backgroundColor: props.color
+                }}
+            >
+                <p style={{ color: props.textColor, textAlign: "left" }}>
+                    {props.children}
+                </p>
+            </div>
         </div>
     );
 }
