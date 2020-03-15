@@ -145,7 +145,7 @@ function Chat({}: IProps): React.ReactElement {
                             type="text"
                             style={{
                                 ...styles.input,
-                                ...roomBorderColor,
+                                ...chatBorderColor,
                                 boxShadow:
                                     "15px 15px 30px #d9d9d9, -15px -15px 30px #ffffff"
                             }}
