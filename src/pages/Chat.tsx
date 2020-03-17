@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, TextField, Bubble } from "../components";
 import { HashLink as Link } from "react-router-hash-link";
+import {} from "react-router-dom";
 import {
     Container,
     Row,
@@ -321,6 +322,14 @@ function Chat({}: IProps): React.ReactElement {
                 </Navbar.Collapse>
             </Navbar>
             <div style={styles.container}>{renderContainer()}</div>
+            <Link
+                to="/path#hash"
+                scroll={el =>
+                    el.scrollIntoView({ behavior: "auto", block: "end" })
+                }
+            >
+                Link to Hash Fragment
+            </Link>
         </div>
     );
 }
