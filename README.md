@@ -1,9 +1,11 @@
 ## Getting Started
 
 The only thing you need to run your own version of this project is Firebase and Heroku.  
-Here are the steps for getting started:  
+Here are the steps for getting started:
+
 1. Go to Firebase Console, create an app
 2. Make a new file in the root directory of this project called .env.local and paste the following contents:
+
 ```bash
 REACT_APP_FIREBASE_API_KEY="xxx"
 REACT_APP_FIREBASE_AUTH_DOMAIN="xxx"
@@ -14,43 +16,50 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID="xxx"
 REACT_APP_FIREBASE_APP_ID="xxx"
 REACT_APP_FIREBASE_MEASUREMENT_ID="xxx"
 ```
-(where 'xxx' are the values from your Firebase App)  
-3. Go to Heroku, make a new app, and set these same config variables (you don't have to do this step if you uncomment `.env.local` from `.gitignore`)  
+
+(where 'xxx' are the values from your Firebase App)
+
+3. Go to Heroku, make a new app, and set these same config variables (you don't have to do this step if you uncomment `.env.local` from `.gitignore`)
 4. Set the Heroku buildpack to
+
 ```bash
 heroku buildpacks:set https://github.com/mars/create-react-app-buildpack.git
 ```
-5. deploy  
-  
-## Firestore Security Rules  
-  
-Set up your Firestore security rules as follows  
+
+5. deploy
+
+## Firestore Security Rules
+
+Set up your Firestore security rules as follows
+
 ```js
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /rooms {
-    
-      // any authenticated user can query a room
-      allow get: if request.auth.uid != null;
-      
-      // nobody can query LIST of rooms
-      allow list: if false;
-      
-      match /rooms/{roomId} {
+    match /rooms/{roomId} {
+      	// limit of 1 document per query
+      	allow list: if request.auth.uid != null && request.query.limit == 1;
+
+      	// any authenticated user can query a room
+      	allow get: if request.auth.uid != null;
+
       	// anybody can create rooms
       	allow create: if request.auth.uid != null;
-      
+
       	// nobody can delete rooms
       	allow delete: if false;
-      }
+    }
+
+    match /rooms/{roomId}/messages/{messageId} {
+    	// any auth'd user can read and write
+    	allow read, write: if request.auth.uid != null;
     }
   }
 }
-```  
-  
+```
+
 ## Available Scripts
-  
+
 In the project directory, you can run:
 
 ### `yarn start`
