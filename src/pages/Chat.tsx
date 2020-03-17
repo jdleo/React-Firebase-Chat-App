@@ -1,7 +1,5 @@
 import React from "react";
 import { Button, TextField, Bubble } from "../components";
-import { HashLink as Link } from "react-router-hash-link";
-import { Redirect } from "react-router-dom";
 
 import {
     Container,
