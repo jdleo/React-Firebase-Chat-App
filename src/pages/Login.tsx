@@ -9,9 +9,7 @@ import { styles } from "../styles/global";
 // firebase
 import firebase from "../config/firebase";
 
-interface IProps {}
-
-function Login({}: IProps): React.ReactElement {
+function Login(): React.ReactElement {
     // unpack state for border color (for focusing)
     const [emailBorderColor, setEmailBorderColor] = React.useState({
         borderColor: "#ddd"

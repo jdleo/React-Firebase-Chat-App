@@ -50,12 +50,7 @@ const colors = [
     "#1b5e20"
 ];
 
-interface IProps {}
-
-function Chat({}: IProps): React.ReactElement {
-    // unpack state for loading
-    const [loading, setLoading] = React.useState(false);
-
+function Chat(): React.ReactElement {
     // unpacking chat data state
     const [messages, setMessages] = React.useState<
         {
@@ -248,7 +243,7 @@ function Chat({}: IProps): React.ReactElement {
                             <Button
                                 title="Enter Room"
                                 onClick={() => handleRoomSelection()}
-                                disabled={loading}
+                                disabled={false}
                             />
                         </Col>
                     </Row>
@@ -354,7 +349,7 @@ function Chat({}: IProps): React.ReactElement {
                                 </Popover>
                             }
                         >
-                            <a href="#">{firebase.auth().currentUser!.email}</a>
+                            <a href="/#">{firebase.auth().currentUser!.email}</a>
                         </OverlayTrigger>
                     </Navbar.Text>
                 </Navbar.Collapse>
