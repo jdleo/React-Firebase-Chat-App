@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, TextField, Bubble } from "../components";
+import { HashLink as Link } from "react-router-hash-link";
 import {
     Container,
     Row,
@@ -170,12 +171,16 @@ function Chat({}: IProps): React.ReactElement {
     const handleRoomSelection = () => {
         // set the room
         setRoom(roomText);
-    }
+    };
 
     // check if room is set
     if (room !== "") {
         // listen for messages
-        firebase.firestore().collection("rooms").doc(room).collection("messages")
+        firebase
+            .firestore()
+            .collection("rooms")
+            .doc(room)
+            .collection("messages");
     }
 
     // helper method for conditionally rendering chat container
@@ -233,7 +238,7 @@ function Chat({}: IProps): React.ReactElement {
                 >
                     <Col xs={12}>
                         <Bubble
-                            sender={message.sender.substring(0,5)}
+                            sender={message.sender.substring(0, 5)}
                             color={renderBubbleColor(message.sender)}
                             textColor={
                                 message.sender ===
@@ -257,7 +262,7 @@ function Chat({}: IProps): React.ReactElement {
             return (
                 <>
                     <Container fluid>{listItems}</Container>
-                    
+
                     <Navbar fixed="bottom">
                         <TextField
                             placeholder="Type here..."
@@ -299,7 +304,8 @@ function Chat({}: IProps): React.ReactElement {
                                             onClick={() =>
                                                 firebase
                                                     .auth()
-                                                    .signOut().then(() => {})
+                                                    .signOut()
+                                                    .then(() => {})
                                                     .catch(err => {})
                                             }
                                             disabled={false}
