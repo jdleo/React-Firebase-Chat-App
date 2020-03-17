@@ -59,18 +59,13 @@ function Chat({}: IProps): React.ReactElement {
     const [loading, setLoading] = React.useState(false);
 
     // unpacking chat data state
-    const [messages, setMessages] = React.useState([
+    const [messages, setMessages] = React.useState<
         {
-            sender: "bWcWyIpEjkPqtn39eRdvuU9focm1",
-            body: "This is a message",
-            timestamp: firebase.firestore.Timestamp.now()
-        },
-        {
-            sender: "rEFvQL0fodWQFwqf4asef",
-            body: "This is another message",
-            timestamp: firebase.firestore.Timestamp.now()
-        }
-    ]);
+            sender: string;
+            body: string;
+            timestamp: firebase.firestore.Timestamp;
+        }[]
+    >([]);
 
     // a data store for which users correspond to which colors
     const [userColors, setUserColors] = React.useState({
@@ -95,6 +90,54 @@ function Chat({}: IProps): React.ReactElement {
     const [chatBorderColor, setChatBorderColor] = React.useState({
         borderColor: "#ddd"
     });
+
+    // effect for when room changes
+    React.useEffect(() => {
+        // check if room is set
+        if (room !== "") {
+            // listen for messages
+            firebase
+                .firestore()
+                .collection("rooms")
+                .doc(room)
+                .collection("messages")
+                .orderBy("timestamp", "asc")
+                .onSnapshot(
+                    snap => {
+                        if (snap.empty) return;
+
+                        // result array
+                        const res: {
+                            sender: string;
+                            body: string;
+                            timestamp: firebase.firestore.Timestamp;
+                        }[] = [];
+
+                        // iterate thru snapshot documents
+                        snap.docs.forEach(doc => {
+                            // create message data
+                            const data = {
+                                sender: doc.data().sender,
+                                body: doc.data().body,
+                                timestamp: doc.data().timestamp
+                            };
+
+                            // push message data
+                            res.push(data);
+                        });
+
+                        // set new data
+                        setMessages(res);
+
+                        // scroll to bottom
+                        window.scrollTo(0, document.body.scrollHeight);
+                    },
+                    err => {
+                        console.log(err);
+                    }
+                );
+        }
+    }, [room]);
 
     // helper method for handling onBlur()
     const onBlurChat = () => {
@@ -134,28 +177,29 @@ function Chat({}: IProps): React.ReactElement {
         if (e.key === "Enter") {
             // make sure not empty
             if (body !== "") {
-                // append to messages
-                setMessages([
-                    ...messages,
-                    {
-                        sender: firebase.auth().currentUser!.uid,
-                        body: body,
-                        timestamp: firebase.firestore.Timestamp.now()
-                    }
-                ]);
+                // create message data
+                const data = {
+                    sender: firebase.auth().currentUser!.uid,
+                    body: body,
+                    timestamp: firebase.firestore.Timestamp.now()
+                };
+
+                // upload data to firestore
+                firebase
+                    .firestore()
+                    .collection("rooms")
+                    .doc(room)
+                    .collection("messages")
+                    .add(data);
 
                 // clear text field
                 setBody("");
-
-                // scroll to bottom
-                window.scrollTo(0, document.body.scrollHeight);
             }
         }
     };
 
     // helper method for rendering color based on sender
     const renderBubbleColor: (sender: string) => string = (sender: string) => {
-        console.log(userColors);
         // check if sender in user colors
         if (sender in userColors) {
             // return color
@@ -177,16 +221,6 @@ function Chat({}: IProps): React.ReactElement {
         // set the room
         setRoom(roomText);
     };
-
-    // check if room is set
-    if (room !== "") {
-        // listen for messages
-        firebase
-            .firestore()
-            .collection("rooms")
-            .doc(room)
-            .collection("messages");
-    }
 
     // helper method for conditionally rendering chat container
     const renderContainer = () => {
@@ -266,7 +300,7 @@ function Chat({}: IProps): React.ReactElement {
 
             return (
                 <>
-                    <Container fluid style={{ marginBottom: 160 }}>
+                    <Container fluid style={{ marginBottom: 100 }}>
                         {listItems}
                     </Container>
 
